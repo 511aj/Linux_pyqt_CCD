@@ -36,8 +36,8 @@ class MainMenu(QtWidgets.QMainWindow):
             print("没有找到设置界面")
 
         # 串口操作代码
-        if self.batch is not None:
-            self.batch.mousePressEvent = self.serial_port  # 连接鼠标点击事件
+        # if self.batch is not None:
+        #     self.batch.mousePressEvent = self.serial_port  # 连接鼠标点击事件
 
         # 添加曲线按钮点击事件
         if self.test is not None:
