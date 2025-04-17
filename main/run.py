@@ -60,6 +60,7 @@ class PlotWidget(QWidget):
         # 打印结果
 
         # 算出面积
+        # todo 根据区间算两个区域的面积。不用算出所有的，再返回比例等
         for valley in valleys:
             if valley['start'] is not None and valley['peak'] is not None and valley['end'] is not None:
                 start = valley['start']
