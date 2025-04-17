@@ -133,8 +133,8 @@
     <rect>
      <x>20</x>
      <y>10</y>
-     <width>411</width>
-     <height>200</height>
+     <width>480</width>
+     <height>280</height>
     </rect>
    </property>
    <property name="minimumSize">
@@ -145,8 +145,8 @@
    </property>
    <property name="maximumSize">
     <size>
-     <width>441</width>
-     <height>200</height>
+     <width>480</width>
+     <height>280</height>
     </size>
    </property>
    <property name="styleSheet">
