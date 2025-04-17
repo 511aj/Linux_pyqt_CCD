@@ -22,11 +22,15 @@ def run():
     # 设置用户名和密码
     client.username_pw_set(username="test", password="123456")
     client.on_connect = on_connect  # 设置回调函数
+    # 连接mqtt服务器 ,虚拟机测试地址，部署到服务器，需要修改地址并且开放端口
+    # todo
     client.connect("192.168.254.140", 1883, 60)  # 连接mqtt服务器，参数(ip,端口,超时时间)
     client.loop_start()  # 开启一个新线程，负责网络的接收和发送
 
     time.sleep(1)
     while True:
+
+
         data = input("请输入你要发送的内容：")
         client.publish("topic", data, 0, True)  # 向"topic"主题中发布data数据，QoS服务等级为0，True为指定消息要保留
         print(f"消息发送成功: {data}\n")
@@ -34,3 +38,4 @@ def run():
 
 if __name__ == '__main__':
     run()
+
