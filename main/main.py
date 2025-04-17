@@ -4,7 +4,7 @@ from qtpy import uic
 
 from main_ui import Ui_Form  # 用你的 UI 文件替代
 from sensor_reader import read_sensor_data  # 导入函数
-from 画曲线 import MainWindow as CurveWindow  # 导入画曲线的窗口类
+from run import MainWindow as CurveWindow  # 导入画曲线的窗口类
 
 
 # 主菜单
