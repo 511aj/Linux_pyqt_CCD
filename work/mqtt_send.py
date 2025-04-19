@@ -19,11 +19,11 @@ def run():
 
     # 创建客户端实例对象，参数为回调API版本，客户端的ID
     client = mqtt.Client(callback_api_version=mqtt.CallbackAPIVersion.VERSION2, client_id="python_mqtt_test_1")
-    # 设置用户名和密码
+    # todo 设置用户名和密码
     client.username_pw_set(username="test", password="123456")
     client.on_connect = on_connect  # 设置回调函数
     # 连接mqtt服务器 ,虚拟机测试地址，部署到服务器，需要修改地址并且开放端口
-    # todo
+    # todo mqtt服务器地址，端口
     client.connect("192.168.254.140", 1883, 60)  # 连接mqtt服务器，参数(ip,端口,超时时间)
     client.loop_start()  # 开启一个新线程，负责网络的接收和发送
 

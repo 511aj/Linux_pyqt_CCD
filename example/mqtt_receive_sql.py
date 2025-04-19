@@ -1,3 +1,18 @@
+"""
+这是在mqtt服务器上运行的Python脚本，用于接收MQTT消息并将数据存储到MySQL数据库中。
+
+首先，需要安装pymysql库，用于连接MySQL数据库。
+
+然后，需要在MySQL数据库中创建名为mqtt_user的数据库，并在该数据库中创建名为username的表，用于存储MQTT消息中的数据。
+
+最后，需要在mqtt_receive_sql.py脚本中配置MySQL数据库的连接信息，并调用存储函数将MQTT消息中的数据存储到数据库中。
+
+数据库配置具体参考.md
+
+要先运行此脚本监听8000端口，不然Webhooks测试连接不会成功
+
+"""
+
 from flask import Flask, json, request
 import pymysql
 
