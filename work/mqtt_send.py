@@ -29,8 +29,6 @@ def run():
 
     time.sleep(1)
     while True:
-
-
         data = input("请输入你要发送的内容：")
         client.publish("topic", data, 0, True)  # 向"topic"主题中发布data数据，QoS服务等级为0，True为指定消息要保留
         print(f"消息发送成功: {data}\n")
@@ -38,4 +36,3 @@ def run():
 
 if __name__ == '__main__':
     run()
-

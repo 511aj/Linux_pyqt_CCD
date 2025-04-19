@@ -7,7 +7,8 @@ import sys
 from PyQt5 import QtWidgets, QtCore
 from qtpy import uic
 from sensor_reader import read_sensor_data
-
+from mqtt_send import mqtt_send_data
+import json
 
 class PlotWidget(QWidget):
     def __init__(self, data):
@@ -120,7 +121,7 @@ class PlotWidget(QWidget):
             x = (data_index - start_index) * (width / (end_index - start_index))
 
             # 绘制刻度线（使用 height - axis_offset 作为新的 y 基准）
-            painter.drawLine(int(x), height - axis_offset - 10, int(x), height - axis_offset - tick_length-10)
+            painter.drawLine(int(x), height - axis_offset - 10, int(x), height - axis_offset - tick_length - 10)
 
             # 绘制刻度标签（显示实际像素索引，如 1000, 1100, ...）
             painter.drawText(int(x), height - axis_offset - tick_length + 5, f"{data_index}")
@@ -178,7 +179,8 @@ class MainWindow(QMainWindow):
         # rece = read_sensor_data()  # 读取数据
         # print(rece)
 
-        received_data = bytearray([0x3C, 0xC3, 0x33, 0xCC, 0x00, 0x76, 0x00, 0x7E, 0x00, 0x76, 0x00, 0x76, 0x00, 0x7C, 0x00, 0x72, 0x00, 0x76,
+        received_data = bytearray(
+            [0x3C, 0xC3, 0x33, 0xCC, 0x00, 0x76, 0x00, 0x7E, 0x00, 0x76, 0x00, 0x76, 0x00, 0x7C, 0x00, 0x72, 0x00, 0x76,
              0x00, 0x7C, 0x00, 0x76, 0x00, 0x76, 0x00, 0x7C, 0x00, 0x72, 0x00, 0x72, 0x00, 0x7C, 0x00, 0x72, 0x00, 0x76,
              0x00, 0x7E, 0x00, 0x76, 0x00, 0x76, 0x00, 0x7C, 0x00, 0x76, 0x00, 0x76, 0x00, 0x7A, 0x00, 0x72, 0x00, 0x7A,
              0x00, 0x7A, 0x00, 0x72, 0x00, 0x76, 0x00, 0x7C, 0x00, 0x76, 0x00, 0x76, 0x00, 0x7A, 0x00, 0x72, 0x00, 0x76,
@@ -591,9 +593,15 @@ class MainWindow(QMainWindow):
         layout.addWidget(self.plot_widget)
         self.widget.setLayout(layout)
 
+        # 调用 mqtt 发送函数
+        topic = "resr"
 
 
+        message = {"username": "testuser", "temperature": 25, "soil_humidity": 60, "light": 325}
+        json_message = json.dumps(message)
+        print(json_message)
 
+        mqtt_send_data(topic, json_message)
 
 
 if __name__ == '__main__':
