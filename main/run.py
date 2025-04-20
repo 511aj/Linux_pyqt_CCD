@@ -40,7 +40,7 @@ class PlotWidget(QWidget):
         valleys = []
 
         # 遍历范围
-        for i in range(0, 3560, 1):
+        for i in range(1000, 2000, 1):
             xielv[i] = (xielv[i + 6] + xielv[i + 7] + xielv[i + 8] + xielv[i + 9] +
                         xielv[i] + xielv[i + 1] + xielv[i + 2] + xielv[i + 3] +
                         xielv[i + 4] + xielv[i + 5]) / 10
@@ -58,29 +58,63 @@ class PlotWidget(QWidget):
             if len(valleys) > 0 and valleys[-1]['peak'] is not None and valleys[-1]['end'] is None and xielv[i] < 0.4:
                 valleys[-1]['end'] = i  # 记录终点
 
-        # 打印结果
+        # 初始化变量 算出面积 打印结果
+        Cs = None  # C波谷面积
+        Ts = None  # T波谷面积
+        main_valley = None  # 主波谷
 
-        # 算出面积
-        # todo 根据区间算两个区域的面积。不用算出所有的，再返回比例等
-        for valley in valleys:
+        for valley in reversed(valleys):
             if valley['start'] is not None and valley['peak'] is not None and valley['end'] is not None:
                 start = valley['start']
                 peak = valley['peak']
                 end = valley['end']
-
+                # 计算波谷的面积
                 Bl = (pixels[start] + pixels[start - 1] + pixels[start - 2] + pixels[start + 1] + pixels[start + 2]) / 5
-
                 Br = (pixels[end] + pixels[end - 1] + pixels[end - 2] + pixels[end + 1] + pixels[end + 2]) / 5
-                # 整个面积
                 result_value = (Bl + Br) * (end - start) / 2
 
-                # 面积
                 s = 0
                 for i in range(start, end, 1):
                     s += pixels[i]
+                s = result_value - s
 
-                print(f"波谷 起点: {start}, 顶点: {peak}, 终点: {end}, 计算结果: {result_value},面积: {s}")
+                # 判断波谷是否是主波谷（顶点在1800附近）
+                if abs(peak - 1800) < 100:  # 假设主波谷顶点在1800附近（误差范围±100）
+                    main_valley = valley
+                # 根据位置关系判断是C波谷还是T波谷
+                if main_valley is not None:
+                    if peak < main_valley['peak']:  # 在主波谷之前的波谷
+                        if Ts is None:  # 如果T波谷还没有被赋值，则当前波谷是T波谷
+                            Ts = s
+                        elif Cs is None:  # 如果T波谷已经赋值，则当前波谷是C波谷
+                            Cs = s
 
+                # print(f"波谷 起点: {start}, 顶点: {peak}, 终点: {end}, 计算结果: {result_value}, 面积: {s}")
+
+            # 输出C波谷和T波谷的面积以及比值
+        if Cs is not None and Ts is not None:
+            ratio = Ts / Cs
+            print(f"主波谷: {main_valley['peak']},T波谷面积: {Ts}, C波谷面积: {Cs},比值 Ts/Cs: {ratio}")
+        else:
+            print("未能找到足够的波谷来计算面积和比值")
+
+        # 调用 mqtt 发送函数
+        topic = "resr"
+
+        message = {"username": "testuser", "temperature": 25, "soil_humidity": 60, "light": 325}
+
+        messages = {
+            "main_valley": main_valley['peak'],
+            "T_size": Ts,
+            "C_size": Cs,
+            "T/C_ratio": ratio
+        }
+
+        json_message = json.dumps(message)
+        json_messages = json.dumps(messages)
+        print(json_message)
+        print(json_messages)
+        mqtt_send_data(topic, json_messages)
         return pixels
 
     # 画笔
@@ -593,15 +627,7 @@ class MainWindow(QMainWindow):
         layout.addWidget(self.plot_widget)
         self.widget.setLayout(layout)
 
-        # 调用 mqtt 发送函数
-        topic = "resr"
 
-
-        message = {"username": "testuser", "temperature": 25, "soil_humidity": 60, "light": 325}
-        json_message = json.dumps(message)
-        print(json_message)
-
-        mqtt_send_data(topic, json_message)
 
 
 if __name__ == '__main__':
