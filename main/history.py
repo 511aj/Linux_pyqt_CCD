@@ -1,4 +1,3 @@
-
 """
 Project ：Linux_pyqt_CCD 
 File    ：history.py
@@ -12,7 +11,7 @@ import sys
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtWidgets import QApplication
 
-from 检测历史 import Ui_Form as HistoryUI
+from ui.检测历史 import Ui_Form as HistoryUI
 
 
 # 检测历史窗口

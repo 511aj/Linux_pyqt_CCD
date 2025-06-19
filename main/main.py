@@ -2,14 +2,13 @@ import sys
 from PyQt5 import QtWidgets, QtCore
 from qtpy import uic
 
-from main_ui import Ui_Form  # 导入主菜单UI文件
+# from main_ui import Ui_Form  # 导入主菜单UI文件
+
 from sensor_reader import read_sensor_data  # 导入函数
 
 # 导入其他窗口类
-from test import MainWindow as CurveWindow  # 导入画曲线的窗口类
-from set import SETWindow  # 导入设置的窗口类
-from history import HistoryWindow  # 导入历史记录的窗口类
 
+from scan import MainWindow as CurveWindow  # 导入画曲线的窗口类
 
 # 主菜单
 class MainMenu(QtWidgets.QMainWindow):
@@ -19,8 +18,10 @@ class MainMenu(QtWidgets.QMainWindow):
         self.history_window = None
         self.curve_window = None
         self.test_window = None
-        self.ui = Ui_Form()  # 创建 Ui_Form 对象
-        self.ui.setupUi(self)  # 将 UI 设置到主窗口
+        # self.ui = Ui_Form()  # 创建 Ui_Form 对象
+        # self.ui.setupUi(self)  # 将 UI 设置到主窗口
+
+        uic.loadUi('../ui/main_ui.ui', self)
 
         # 添加标签引用(寻找标签)
         self.timeLabel = self.findChild(QtWidgets.QLabel, 'timeLabel')  # 寻找时间标签
@@ -80,6 +81,7 @@ class MainMenu(QtWidgets.QMainWindow):
 
     # 测试试纸界面
     def open_curve_window(self, event):
+
         # 创建并显示曲线窗口
         self.curve_window = CurveWindow()
         # 关闭当前窗口
@@ -89,6 +91,7 @@ class MainMenu(QtWidgets.QMainWindow):
 
     # 打开历史记录界面
     def open_history_ui(self, event):
+        from history import HistoryWindow  # 导入历史记录的窗口类
         # 创建历史记录窗口
         self.history_window = HistoryWindow()
         self.close()  # 关闭当前窗口
@@ -96,6 +99,7 @@ class MainMenu(QtWidgets.QMainWindow):
 
     # 设置界面
     def open_set_ui(self, event):
+        from set import SETWindow  # 导入设置的窗口类
         self.test_window = SETWindow()
         # 关闭当前窗口
         self.close()

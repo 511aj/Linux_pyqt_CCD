@@ -19,11 +19,11 @@ class Ui_Form(object):
         self.top = QtWidgets.QFrame(Form)
         self.top.setGeometry(QtCore.QRect(1, -10, 798, 101))
         self.top.setStyleSheet("QWidget#top{\n"
-"\n"
-"border: 1px solid black;\n"
-"border-radius: 10px;\n"
-"}\n"
-"")
+                               "\n"
+                               "border: 1px solid black;\n"
+                               "border-radius: 10px;\n"
+                               "}\n"
+                               "")
         self.top.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.top.setFrameShadow(QtWidgets.QFrame.Raised)
         self.top.setObjectName("top")
@@ -72,27 +72,27 @@ class Ui_Form(object):
         self.frame = QtWidgets.QFrame(Form)
         self.frame.setGeometry(QtCore.QRect(0, 90, 796, 341))
         self.frame.setStyleSheet("QWidget#frame{\n"
-"\n"
-"border: 1px solid black;\n"
-"border-radius: 10px;\n"
-"}\n"
-"")
+                                 "\n"
+                                 "border: 1px solid black;\n"
+                                 "border-radius: 10px;\n"
+                                 "}\n"
+                                 "")
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame.setObjectName("frame")
         self.pushButton = QtWidgets.QPushButton(self.frame)
         self.pushButton.setGeometry(QtCore.QRect(580, 10, 100, 32))
         self.pushButton.setStyleSheet("background-color:rgb(27, 134, 204);\n"
-"color:rgb(255,255,255);\n"
-"border-radius: 5px; \n"
-"        ")
+                                      "color:rgb(255,255,255);\n"
+                                      "border-radius: 5px; \n"
+                                      "        ")
         self.pushButton.setObjectName("pushButton")
         self.pushButton_2 = QtWidgets.QPushButton(self.frame)
         self.pushButton_2.setGeometry(QtCore.QRect(690, 10, 100, 32))
         self.pushButton_2.setStyleSheet("background-color:rgb(27, 134, 204);\n"
-"color:rgb(255,255,255);\n"
-"border-radius: 5px; \n"
-"        ")
+                                        "color:rgb(255,255,255);\n"
+                                        "border-radius: 5px; \n"
+                                        "        ")
         self.pushButton_2.setObjectName("pushButton_2")
         self.frame_7 = QtWidgets.QFrame(self.frame)
         self.frame_7.setGeometry(QtCore.QRect(0, 146, 800, 3))
@@ -107,18 +107,18 @@ class Ui_Form(object):
         self.pushButton_4 = QtWidgets.QPushButton(self.frame)
         self.pushButton_4.setGeometry(QtCore.QRect(110, 290, 100, 31))
         self.pushButton_4.setStyleSheet("background-color:rgb(27, 134, 204);\n"
-"color:rgb(255,255,255);\n"
-"border-radius: 5px; \n"
-"        ")
+                                        "color:rgb(255,255,255);\n"
+                                        "border-radius: 5px; \n"
+                                        "        ")
         self.pushButton_4.setObjectName("pushButton_4")
         self.frame_8 = QtWidgets.QFrame(self.frame)
         self.frame_8.setGeometry(QtCore.QRect(10, 10, 141, 91))
         self.frame_8.setStyleSheet("QWidget#frame_8{\n"
-"\n"
-"border: 1px solid black;\n"
-"border-radius: 10px;\n"
-"}\n"
-"")
+                                   "\n"
+                                   "border: 1px solid black;\n"
+                                   "border-radius: 10px;\n"
+                                   "}\n"
+                                   "")
         self.frame_8.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_8.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_8.setObjectName("frame_8")
@@ -129,16 +129,16 @@ class Ui_Form(object):
         self.label_5 = QtWidgets.QLabel(self.frame_8)
         self.label_5.setGeometry(QtCore.QRect(6, 36, 91, 31))
         self.label_5.setStyleSheet("")
-        self.label_5.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
+        self.label_5.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop)
         self.label_5.setObjectName("label_5")
         self.tableWidget = QtWidgets.QTableWidget(self.frame)
         self.tableWidget.setGeometry(QtCore.QRect(110, 150, 461, 131))
         self.tableWidget.setStyleSheet("QWidget#frame{\n"
-"\n"
-"border: 1px solid black;\n"
-"border-radius: 10px;\n"
-"}\n"
-"")
+                                       "\n"
+                                       "border: 1px solid black;\n"
+                                       "border-radius: 10px;\n"
+                                       "}\n"
+                                       "")
         self.tableWidget.setObjectName("tableWidget")
         self.tableWidget.setColumnCount(4)
         self.tableWidget.setRowCount(0)
@@ -194,23 +194,23 @@ class Ui_Form(object):
         self.pushButton_6 = QtWidgets.QPushButton(self.frame)
         self.pushButton_6.setGeometry(QtCore.QRect(230, 290, 100, 32))
         self.pushButton_6.setStyleSheet("background-color:rgb(27, 134, 204);\n"
-"color:rgb(255,255,255);\n"
-"border-radius: 5px; \n"
-"        ")
+                                        "color:rgb(255,255,255);\n"
+                                        "border-radius: 5px; \n"
+                                        "        ")
         self.pushButton_6.setObjectName("pushButton_6")
         self.pushButton_7 = QtWidgets.QPushButton(self.frame)
         self.pushButton_7.setGeometry(QtCore.QRect(350, 290, 100, 32))
         self.pushButton_7.setStyleSheet("background-color:rgb(27, 134, 204);\n"
-"color:rgb(255,255,255);\n"
-"border-radius: 5px; \n"
-"        ")
+                                        "color:rgb(255,255,255);\n"
+                                        "border-radius: 5px; \n"
+                                        "        ")
         self.pushButton_7.setObjectName("pushButton_7")
         self.pushButton_8 = QtWidgets.QPushButton(self.frame)
         self.pushButton_8.setGeometry(QtCore.QRect(460, 290, 100, 32))
         self.pushButton_8.setStyleSheet("background-color:rgb(27, 134, 204);\n"
-"color:rgb(255,255,255);\n"
-"border-radius: 5px; \n"
-"        ")
+                                        "color:rgb(255,255,255);\n"
+                                        "border-radius: 5px; \n"
+                                        "        ")
         self.pushButton_8.setObjectName("pushButton_8")
         self.tableWidget_2 = QtWidgets.QTableWidget(self.frame)
         self.tableWidget_2.setGeometry(QtCore.QRect(580, 150, 201, 131))
@@ -273,16 +273,16 @@ class Ui_Form(object):
         self.pushButton_5 = QtWidgets.QPushButton(self.frame)
         self.pushButton_5.setGeometry(QtCore.QRect(10, 230, 101, 41))
         self.pushButton_5.setStyleSheet("background-color:rgb(27, 134, 204);\n"
-"color:rgb(255,255,255);\n"
-"border-radius: 5px; \n"
-"        ")
+                                        "color:rgb(255,255,255);\n"
+                                        "border-radius: 5px; \n"
+                                        "        ")
         self.pushButton_5.setObjectName("pushButton_5")
         self.pushButton_3 = QtWidgets.QPushButton(self.frame)
         self.pushButton_3.setGeometry(QtCore.QRect(10, 160, 99, 41))
         self.pushButton_3.setStyleSheet("background-color:rgb(27, 134, 204);\n"
-"color:rgb(255,255,255);\n"
-"border-radius: 5px; \n"
-"        ")
+                                        "color:rgb(255,255,255);\n"
+                                        "border-radius: 5px; \n"
+                                        "        ")
         self.pushButton_3.setObjectName("pushButton_3")
         self.layoutWidget = QtWidgets.QWidget(Form)
         self.layoutWidget.setGeometry(QtCore.QRect(0, 0, 2, 2))
@@ -332,8 +332,11 @@ class Ui_Form(object):
         self.label_7.setText(_translate("Form", "样本号："))
         self.pushButton_5.setText(_translate("Form", "删除"))
         self.pushButton_3.setText(_translate("Form", "样本+1"))
+
+
 if __name__ == "__main__":
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
     Form = QtWidgets.QWidget()
     ui = Ui_Form()

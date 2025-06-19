@@ -1,20 +1,22 @@
-# 在Widget中画曲线，需要导入QPainter，QColor，QApplication，QMainWindow，QVBoxLayout，QWidget，uic库。
 """
 Project ：Linux_pyqt_CCD
-File    ：test.py
+File    ：scan.py
 IDE     ：PyCharm
 Author  ：wj
 Date    ：2025/6/13 下午2:14
-role    :试纸测试界面
+role    :试纸检测界面
+         在Widget中画曲线，需要导入QPainter，QColor，QApplication，QMainWindow，QVBoxLayout，QWidget，uic库。
 """
 
-from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget
-from PyQt5.QtGui import QPainter, QColor
-import sys
-from PyQt5 import QtWidgets, QtCore
-from qtpy import uic
-from mqtt_send import mqtt_send_data
 import json
+import sys
+
+from PyQt5 import QtWidgets, QtCore
+from PyQt5.QtGui import QPainter, QColor
+from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget
+from qtpy import uic
+
+from mqtt_send import mqtt_send_data
 
 
 class PlotWidget(QWidget):
@@ -22,7 +24,8 @@ class PlotWidget(QWidget):
         super().__init__()
         self.pixels = self.extract_pixel_data(data)
 
-    def extract_pixel_data(self, data):
+    @staticmethod
+    def extract_pixel_data(data):
         """从接收到的数据中提取像素值"""
         if len(data) < 4 + 3648 * 2 + 2:  # 添加检测确保数据长度足够
             raise ValueError("Received data is too short")
@@ -187,9 +190,14 @@ class PlotWidget(QWidget):
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi('set_work.ui', self)  # 加载 UI 文件
+        self.window = None
+        self.plot_widget = None
+        uic.loadUi('scan_ui.ui', self)  # 加载 UI 文件
 
-        self.pushButton.clicked.connect(self.update_plot)
+        self.scanBtn.clicked.connect(self.update_plot)
+        # self.set_window = self.findChild(QtWidgets.QFrame, 'scanBtn')  # 找到设置按钮
+
+        self.backBtn.clicked.connect(self.back_plot)
         # 添加标签引用(寻找标签)
         self.timeLabel = self.findChild(QtWidgets.QLabel, 'timeLabel')  # 寻找时间标签
         self.dateLabel = self.findChild(QtWidgets.QLabel, 'dateLabel')  # 寻找日期标签
@@ -633,6 +641,16 @@ class MainWindow(QMainWindow):
         layout = QVBoxLayout(self.widget)  # 使用 plot_area 的布局
         layout.addWidget(self.plot_widget)
         self.widget.setLayout(layout)
+
+    def back_plot(self):
+        print("回到主界面")
+        from main import MainMenu as main_menu_ui
+        # 回到主界面
+        self.window = main_menu_ui()
+        # 关闭当前窗口
+        self.close()
+        # 显示主界面
+        self.window.show()
 
 
 if __name__ == '__main__':

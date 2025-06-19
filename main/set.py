@@ -17,7 +17,7 @@ class SETWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super(SETWindow, self).__init__()
         # 加载test UI文件
-        uic.loadUi('./set.ui', self)
+        uic.loadUi('../ui/set.ui', self)
 
         self.timeLabel = self.findChild(QtWidgets.QLabel, 'timeLabel')  # 寻找时间标签
         self.dateLabel = self.findChild(QtWidgets.QLabel, 'dateLabel')  # 寻找日期标签
