@@ -10,16 +10,18 @@ role    :
 import sys
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtWidgets import QApplication
+from qtpy import uic
 
 from ui.检测历史 import Ui_Form as HistoryUI
 
 
 # 检测历史窗口
-class HistoryWindow(QtWidgets.QMainWindow):
+class HistoryWindow(QtWidgets.QWidget):
     def __init__(self):
         super(HistoryWindow, self).__init__()
-        self.ui = HistoryUI()  # 使用导入的 HistoryUI 类
-        self.ui.setupUi(self)
+        # self.ui = HistoryUI()  # 使用导入的 HistoryUI 类
+        # self.ui.setupUi(self)
+        uic.loadUi('../ui/history_ui.ui', self)  # 使用 uic 加载 ui 文件
 
         # 初始化时间和日期
         self.timeLabel = self.findChild(QtWidgets.QLabel, 'timeLabel')

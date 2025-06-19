@@ -192,12 +192,14 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.window = None
         self.plot_widget = None
-        uic.loadUi('scan_ui.ui', self)  # 加载 UI 文件
+        uic.loadUi('../ui/scan_ui.ui', self)  # 加载 UI 文件
 
         self.scanBtn.clicked.connect(self.update_plot)
         # self.set_window = self.findChild(QtWidgets.QFrame, 'scanBtn')  # 找到设置按钮
 
         self.backBtn.clicked.connect(self.back_plot)
+
+
         # 添加标签引用(寻找标签)
         self.timeLabel = self.findChild(QtWidgets.QLabel, 'timeLabel')  # 寻找时间标签
         self.dateLabel = self.findChild(QtWidgets.QLabel, 'dateLabel')  # 寻找日期标签

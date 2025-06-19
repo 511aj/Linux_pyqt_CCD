@@ -17,16 +17,23 @@ class SETWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super(SETWindow, self).__init__()
         # 加载test UI文件
-        uic.loadUi('../ui/set.ui', self)
+        self.window = None
+        uic.loadUi('../ui/set_ui.ui', self)
 
         self.timeLabel = self.findChild(QtWidgets.QLabel, 'timeLabel')  # 寻找时间标签
         self.dateLabel = self.findChild(QtWidgets.QLabel, 'dateLabel')  # 寻找日期标签
+
+        self.backBtn = self.findChild(QtWidgets.QFrame, 'backBtn')  #
 
         # 检查标签是否成功找到
         if self.timeLabel is None:
             print("Error: timeLabel not found in UI")
         if self.dateLabel is None:
             print("Error: dateLabel not found in UI")
+        if self.backBtn is not None:
+            self.backBtn.mousePressEvent = self.back_plot
+        else:
+            print("Error: backBtn not found in UI")
 
         # 创建定时器，每秒更新时间和日期
         self.timer = QtCore.QTimer(self)
@@ -45,6 +52,16 @@ class SETWindow(QtWidgets.QMainWindow):
         if self.timeLabel and self.dateLabel:  # 确保标签存在
             self.timeLabel.setText(current_time)
             self.dateLabel.setText(current_date)
+
+    def back_plot(self, event):
+        print("回到主界面")
+        from main import MainMenu as main_menu_ui
+        # 回到主界面
+        self.window = main_menu_ui()
+        # 关闭当前窗口
+        self.close()
+        # 显示主界面
+        self.window.show()
 
 
 if __name__ == '__main__':

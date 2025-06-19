@@ -10,6 +10,7 @@ from sensor_reader import read_sensor_data  # 导入函数
 
 from scan import MainWindow as CurveWindow  # 导入画曲线的窗口类
 
+
 # 主菜单
 class MainMenu(QtWidgets.QMainWindow):
     def __init__(self):

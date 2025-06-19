@@ -61,7 +61,7 @@ border-radius: 10px;
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QFrame" name="home">
+   <widget class="QFrame" name="backBtn">
     <property name="geometry">
      <rect>
       <x>727</x>
