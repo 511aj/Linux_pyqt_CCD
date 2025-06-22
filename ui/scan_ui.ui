@@ -128,32 +128,6 @@
     <string>设置终点</string>
    </property>
   </widget>
-  <widget class="QWidget" name="widget" native="true">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>20</y>
-     <width>480</width>
-     <height>280</height>
-    </rect>
-   </property>
-   <property name="minimumSize">
-    <size>
-     <width>411</width>
-     <height>0</height>
-    </size>
-   </property>
-   <property name="maximumSize">
-    <size>
-     <width>480</width>
-     <height>280</height>
-    </size>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">#widget
-{border-style: solid; border-width: 1px; border-radius: 10px; border-color: black;}</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="backBtn">
    <property name="geometry">
     <rect>
@@ -169,6 +143,74 @@
    <property name="text">
     <string>返回</string>
    </property>
+  </widget>
+  <widget class="QFrame" name="frame">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>491</width>
+     <height>291</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QWidget" name="widget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>5</x>
+      <y>5</y>
+      <width>480</width>
+      <height>280</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>411</width>
+      <height>0</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>480</width>
+      <height>280</height>
+     </size>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">#widget
+{border-style: solid; border-width: 1px; border-radius: 10px; border-color: black;}</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QFrame" name="frame_2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>305</y>
+     <width>780</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QWidget" name="Porgress_bar" native="true">
+    <property name="geometry">
+     <rect>
+      <x>5</x>
+      <y>5</y>
+      <width>800</width>
+      <height>45</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
  </widget>
  <resources>

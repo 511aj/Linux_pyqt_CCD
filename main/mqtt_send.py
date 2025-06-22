@@ -9,8 +9,6 @@
         run(topic, message)
 """
 import time
-
-
 import paho.mqtt.client as mqtt
 
 

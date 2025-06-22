@@ -21,6 +21,7 @@ from qtpy import uic
 # 导入函数
 from mqtt_send import mqtt_send_data
 from sensor_reader import read_sensor_data, generate_random_packet
+import time
 
 
 # 串口接收输出线程
@@ -51,7 +52,7 @@ class SeriaReadThread(QThread):
         #     formatted_sequence += f'0x{byte},'  # 在每个字节后加上逗号和空格
         # formatted_sequence = formatted_sequence.rstrip(', ')  # 删除最后多余的逗号和空格
         # received_data = ([formatted_sequence])
-
+        time.sleep(2)
         packet, generated_pixels = generate_random_packet()
         print("生成的数据:", packet)
 
@@ -239,6 +240,17 @@ class MainWindow(QMainWindow):
         self.plot_widget = None
         uic.loadUi('../ui/scan_ui.ui', self)  # 加载 UI 文件
 
+        # 动态创建进度条并加入 widget 布局
+        self.progressBar = QtWidgets.QProgressBar()
+        self.progressBar.setRange(0, 0)  # 不确定模式
+        self.progressBar.hide()
+
+        # 获取 widget 的布局，如果没有就新建一个
+        layout = self.Porgress_bar.layout()
+        if layout is None:
+            layout = QVBoxLayout(self.Porgress_bar)
+        layout.addWidget(self.progressBar)
+# 连接按钮事件
         self.scanBtn.clicked.connect(self.update_plot)
 
         self.backBtn.clicked.connect(self.back_to_main)
@@ -282,35 +294,44 @@ class MainWindow(QMainWindow):
         """更新 PlotWidget 的数据并重新绘制"""
         # todo: 在这里开启线程，读取数据，并将数据传入 PlotWidget 进行绘制
         """启动线程读取串口数据"""
+        if self.thread and self.thread.isRunning():
+            print("线程已在运行，跳过重复启动")
+            return
+        # 显示进度条
+        self.progressBar.show()
+
         self.thread = SeriaReadThread()
         self.thread.data_received.connect(self.handle_received_data)
         self.thread.start()
 
-        # 使用示例
-        # packet, generated_pixels = generate_random_packet()
-        # print("生成的数据长度:", len(packet))
-        # print("前10个原始像素值:", generated_pixels[:10])
-        # received_data = packet  # 读取数
-        # # 创建 PlotWidget 并添加到 UI 文件中的预留区域
-        # self.plot_widget = PlotWidget(received_data)
-        # layout = QVBoxLayout(self.widget)  # 使用 plot_area 的布局
-        # layout.addWidget(self.plot_widget)
-        # self.widget.setLayout(layout)
-
     def handle_received_data(self, received_data):
         """处理接收到的数据并更新图形"""
-        print("画图")
-        if not received_data:
-            print("接收到空数据，无法绘图")
-            return
+        # 隐藏进度条
+        self.progressBar.hide()
 
-        # 创建 PlotWidget 并添加到 UI 文件中的预留区域
+        # 清除之前的绘图部件
+        if self.plot_widget is not None:
+            self.plot_widget.setParent(None)
+            self.plot_widget.deleteLater()
+            self.plot_widget = None
 
-        print("Received data:", received_data)
+        # 创建新的 PlotWidget
         self.plot_widget = PlotWidget(received_data)
-        layout = QVBoxLayout(self.widget)  # 使用 plot_area 的布局
-        layout.addWidget(self.plot_widget)
-        self.widget.setLayout(layout)
+
+        # 清除布局中的所有内容（如果有）
+        if self.widget.layout() is not None:
+            # 方法1：直接清除布局中的所有项目
+            while self.widget.layout().count():
+                item = self.widget.layout().takeAt(0)
+                if item.widget():
+                    item.widget().deleteLater()
+        else:
+            # 如果没有布局，创建一个新的
+            layout = QVBoxLayout(self.widget)
+            self.widget.setLayout(layout)
+
+        # 添加新的绘图部件
+        self.widget.layout().addWidget(self.plot_widget)
 
 
 if __name__ == '__main__':

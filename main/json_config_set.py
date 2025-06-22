@@ -1,6 +1,6 @@
 """
 Project ：Linux_pyqt_CCD
-File    ：read_json_settings.py
+File    ：json_config_set.py
 IDE     ：PyCharm
 Author  ：wj
 Date    ：2025/4/21 下午2:08
