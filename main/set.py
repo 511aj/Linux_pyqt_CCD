@@ -31,7 +31,7 @@ class SETWindow(QtWidgets.QMainWindow):
         if self.dateLabel is None:
             print("Error: dateLabel not found in UI")
         if self.backBtn is not None:
-            self.backBtn.mousePressEvent = self.back_plot
+            self.backBtn.mousePressEvent = self.back_to_main
         else:
             print("Error: backBtn not found in UI")
 
@@ -53,7 +53,7 @@ class SETWindow(QtWidgets.QMainWindow):
             self.timeLabel.setText(current_time)
             self.dateLabel.setText(current_date)
 
-    def back_plot(self, event):
+    def back_to_main(self, event):
         print("回到主界面")
         from main import MainMenu as main_menu_ui
         # 回到主界面

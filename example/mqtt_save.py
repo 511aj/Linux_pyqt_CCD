@@ -23,7 +23,7 @@ cursor = db.cursor()
 # 定义数据存储函数
 def storage_data(username, main_valley, T_size, C_size, T_C_ratio):
     # 创建表的SQL语句（如果表不存在）
-    create_sql = (f'CREATE TABLE IF NOT EXISTS {username}_Data ('
+    create_sql = (f'CREATE TABLE IF NOT EXISTS {username}_CCD ('
                   f'id INT AUTO_INCREMENT PRIMARY KEY,'
                   f'main_valley FLOAT,'
                   f'T_size FLOAT,'
@@ -58,6 +58,7 @@ app = Flask(__name__)
 def receive_messages():
     # 获取POST请求中的JSON数据
     message = request.get_json()
+    print(message)
 
     if not message:
         reply = {"result": "error", "message": "No JSON data received"}
@@ -83,7 +84,10 @@ def receive_messages():
         return json.dumps(reply), 400
 
     # 获取用户名
-    username = message.get('username')
+    # username = message.get('username')
+
+    payload = json.loads(payload_str)
+    username = payload.get('username')
     if not username:
         reply = {"result": "error", "message": "Username is missing"}
         return json.dumps(reply), 400
@@ -105,4 +109,4 @@ def receive_messages():
 # 主程序入口
 if __name__ == '__main__':
     # 启动Flask应用，监听所有网络接口的8001端口
-    app.run('0.0.0.0', 8001)
+    app.run('0.0.0.0', 8002)

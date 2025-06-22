@@ -4,8 +4,6 @@ from qtpy import uic
 
 # from main_ui import Ui_Form  # 导入主菜单UI文件
 
-from sensor_reader import read_sensor_data  # 导入函数
-
 # 导入其他窗口类
 
 from scan import MainWindow as CurveWindow  # 导入画曲线的窗口类
@@ -53,10 +51,6 @@ class MainMenu(QtWidgets.QMainWindow):
             self.set_window.mousePressEvent = self.open_set_ui  # 连接鼠标点击事件
         else:
             print("没有找到设置界面")
-
-        # 串口操作代码
-        # if self.batch is not None:
-        #     self.batch.mousePressEvent = self.serial_port  # 连接鼠标点击事件
 
         # 日期和时间显示
         if self.timeLabel is None:
@@ -106,27 +100,6 @@ class MainMenu(QtWidgets.QMainWindow):
         self.close()
         # 显示新的窗口
         self.test_window.show()
-
-    def serial_port(self, event):
-        print("打开串口")
-        # 调用函数并获取 input_data
-        data_string = read_sensor_data()
-
-        # 输出获取的传感器数据
-        if data_string is not None:
-            print(data_string)
-        else:
-            print("获取传感器数据失败。")
-
-        byte_list = data_string.split()  # 将字符串拆分为字节列表
-        formatted_sequence = ""  # 使用循环构建格式化的字符串
-
-        for byte in byte_list:
-            formatted_sequence += f'0x{byte},'  # 在每个字节后加上逗号和空格
-        formatted_sequence = formatted_sequence.rstrip(', ')  # 删除最后多余的逗号和空格
-        received_data = ([formatted_sequence])
-
-        # todo 串口操作代码，到时候移动到正确位置
 
 
 if __name__ == '__main__':
