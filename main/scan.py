@@ -13,9 +13,9 @@ import json
 import sys
 
 from PyQt5 import QtWidgets, QtCore
-from PyQt5.QtCore import QThread, pyqtSignal
-from PyQt5.QtGui import QPainter, QColor
-from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget
+from PyQt5.QtCore import QThread, pyqtSignal, QPoint, QTimer
+from PyQt5.QtGui import QPainter, QColor, QFont
+from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QToolTip
 from qtpy import uic
 
 # 导入函数
@@ -23,6 +23,8 @@ from mqtt_send import mqtt_send_data
 from sensor_reader import read_sensor_data, generate_random_packet
 import time
 
+T_value = 50
+C_value = 50
 
 # 串口接收输出线程
 class SeriaReadThread(QThread):
@@ -239,6 +241,8 @@ class MainWindow(QMainWindow):
         self.window = None
         self.plot_widget = None
         uic.loadUi('../ui/scan_ui.ui', self)  # 加载 UI 文件
+        # 设置字体
+        QToolTip.setFont(QFont('Microsoft YaHei', 12))
 
         # 动态创建进度条并加入 widget 布局
         self.progressBar = QtWidgets.QProgressBar()
@@ -258,6 +262,19 @@ class MainWindow(QMainWindow):
         # 添加标签引用(寻找标签)
         self.timeLabel = self.findChild(QtWidgets.QLabel, 'timeLabel')  # 寻找时间标签
         self.dateLabel = self.findChild(QtWidgets.QLabel, 'dateLabel')  # 寻找日期标签
+
+        self.T_label = self.findChild(QtWidgets.QLabel, 'T_label')  # 寻找T波谷面积标签
+        self.C_label = self.findChild(QtWidgets.QLabel, 'C_label')
+
+        self.horizontalSlider_T = self.findChild(QtWidgets.QSlider, 'horizontalSlider_T')
+        self.horizontalSlider_C = self.findChild(QtWidgets.QSlider, 'horizontalSlider_C')
+
+        self.horizontalSlider_T.setValue(50)
+        self.horizontalSlider_C.setValue(50)
+
+        self.horizontalSlider_T.valueChanged.connect(self.vslider_T_changeda)
+        self.horizontalSlider_C.valueChanged.connect(self.vslider_C_changeda)
+
         # 日期和时间显示
         if self.timeLabel is None:
             print("Error: timeLabel not found in UI")
@@ -296,6 +313,14 @@ class MainWindow(QMainWindow):
         """启动线程读取串口数据"""
         if self.thread and self.thread.isRunning():
             print("线程已在运行，跳过重复启动")
+            pos = self.Porgress_bar.mapToGlobal(self.Porgress_bar.rect().topLeft())
+            # 位置偏移
+            final_pos = pos + QPoint(0, 0)
+            # 在按钮上方显示气泡提示
+            QToolTip.showText(final_pos, "请等待测量完成", self.Porgress_bar)
+
+            # 使用 QTimer 在2秒后隐藏提示
+            QTimer.singleShot(2000, QToolTip.hideText)
             return
         # 显示进度条
         self.progressBar.show()
@@ -332,6 +357,15 @@ class MainWindow(QMainWindow):
 
         # 添加新的绘图部件
         self.widget.layout().addWidget(self.plot_widget)
+
+    def vslider_T_changeda(self):
+        T_value = self.horizontalSlider_T.value() - 50
+        self.T_label.setText("T线:"+str(T_value))
+
+    def vslider_C_changeda(self):
+        print("C波谷面积变化")
+        C_value = self.horizontalSlider_C.value() - 50
+        self.C_label.setText("C线:"+str(C_value))
 
 
 if __name__ == '__main__':
