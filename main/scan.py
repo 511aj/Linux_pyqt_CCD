@@ -13,7 +13,7 @@ import json
 import sys
 
 from PyQt5 import QtWidgets, QtCore
-from PyQt5.QtCore import QThread, pyqtSignal, QPoint, QTimer
+from PyQt5.QtCore import QThread, pyqtSignal, QPoint, QTimer, QRectF
 from PyQt5.QtGui import QPainter, QColor, QFont
 from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QToolTip
 from qtpy import uic
@@ -23,8 +23,13 @@ from mqtt_send import mqtt_send_data
 from sensor_reader import read_sensor_data, generate_random_packet
 import time
 
+from PyQt5.QtCore import Qt, QPointF
+from PyQt5.QtGui import QPainter, QPen, QPolygonF
+from PyQt5.QtWidgets import QWidget
+
 T_value = 50
 C_value = 50
+
 
 # 串口接收输出线程
 class SeriaReadThread(QThread):
@@ -234,6 +239,58 @@ class PlotWidget(QWidget):
             previous_y = int(y)
 
 
+class LineWithArrows(QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.line_y = 30  # 固定线的位置（y 坐标）
+        self.arros_height = 30  # 箭头高度
+        self.arrow_size = 5  # 箭头大小
+        self.arrow_x_left = 0  # 左箭头的 x 坐标
+        self.arrow_x_right = self.width()  # 右箭头的 x 坐标
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.Antialiasing)
+
+        # 设置画笔
+        pen = QPen(Qt.black, 2)
+        painter.setPen(pen)
+
+        # 绘制水平线（固定位置）
+        line_start = QPointF(0, self.line_y)
+        line_end = QPointF(self.width(), self.line_y)
+        painter.drawLine(line_start, line_end)
+
+        """
+        原理：QPolygonF 是一个点的集合，可以用来绘制多边形。
+        这里使用 QPolygonF 来绘制箭头。
+        给三角形的三个点赋值，然后绘制即可。
+        """
+
+        arrow_left = QPolygonF([
+            QPointF(self.arrow_x_left, self.line_y - self.arros_height),
+            QPointF(self.arrow_x_left - self.arrow_size, self.line_y),
+            QPointF(self.arrow_x_left + self.arrow_size, self.line_y)
+        ])
+        painter.setBrush(Qt.red)
+        painter.drawPolygon(arrow_left)
+
+        # 右箭头（朝下）
+        arrow_right = QPolygonF([
+            QPointF(self.arrow_x_right, self.line_y - self.arros_height),
+            QPointF(self.arrow_x_right - self.arrow_size, self.line_y),
+            QPointF(self.arrow_x_right + self.arrow_size, self.line_y)
+        ])
+        painter.setBrush(Qt.blue)
+        painter.drawPolygon(arrow_right)
+
+    def set_arrow_positions(self, left_x, right_x):
+        """设置左右箭头的位置"""
+        self.arrow_x_left = left_x
+        self.arrow_x_right = right_x
+        self.update()  # 触发重绘
+
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -254,7 +311,7 @@ class MainWindow(QMainWindow):
         if layout is None:
             layout = QVBoxLayout(self.Porgress_bar)
         layout.addWidget(self.progressBar)
-# 连接按钮事件
+        # 连接按钮事件
         self.scanBtn.clicked.connect(self.update_plot)
 
         self.backBtn.clicked.connect(self.back_to_main)
@@ -286,6 +343,14 @@ class MainWindow(QMainWindow):
         self.timer.start(1000)  # 每1秒触发一次
         # 初始化时间和日期显示
         self.update_time()
+        self.lineWithArrows = LineWithArrows()
+
+        # 获取或创建布局
+        layoutd = self.line_widget.layout() or QVBoxLayout(self.line_widget)
+        self.line_widget.setFixedHeight(50)
+        self.lineWithArrows.set_arrow_positions(3, 400)
+        # 添加新的绘图部件
+        layoutd.addWidget(self.lineWithArrows)
 
     def update_time(self):
         # 获取当前时间和日期
@@ -330,42 +395,36 @@ class MainWindow(QMainWindow):
         self.thread.start()
 
     def handle_received_data(self, received_data):
-        """处理接收到的数据并更新图形"""
         # 隐藏进度条
         self.progressBar.hide()
 
-        # 清除之前的绘图部件
-        if self.plot_widget is not None:
-            self.plot_widget.setParent(None)
+        # 清理旧的绘图部件
+        if self.plot_widget:
             self.plot_widget.deleteLater()
-            self.plot_widget = None
-
-        # 创建新的 PlotWidget
         self.plot_widget = PlotWidget(received_data)
 
-        # 清除布局中的所有内容（如果有）
-        if self.widget.layout() is not None:
-            # 方法1：直接清除布局中的所有项目
-            while self.widget.layout().count():
-                item = self.widget.layout().takeAt(0)
-                if item.widget():
-                    item.widget().deleteLater()
-        else:
-            # 如果没有布局，创建一个新的
-            layout = QVBoxLayout(self.widget)
-            self.widget.setLayout(layout)
+        # 获取或创建布局
+        layout = self.widget.layout() or QVBoxLayout(self.widget)
+
+        # 清空布局中的所有控件（只保留布局本身）
+        while layout.count():
+            child = layout.takeAt(0)
+            if child.widget():
+                child.widget().deleteLater()
 
         # 添加新的绘图部件
-        self.widget.layout().addWidget(self.plot_widget)
+        layout.addWidget(self.plot_widget)
 
     def vslider_T_changeda(self):
-        T_value = self.horizontalSlider_T.value() - 50
-        self.T_label.setText("T线:"+str(T_value))
+        T_value = self.horizontalSlider_T.value()
+        self.T_label.setText("T线:" + str(T_value))
+        self.lineWithArrows.set_arrow_positions(T_value, C_value)
 
     def vslider_C_changeda(self):
         print("C波谷面积变化")
-        C_value = self.horizontalSlider_C.value() - 50
-        self.C_label.setText("C线:"+str(C_value))
+        C_value = self.horizontalSlider_C.value()
+        self.C_label.setText("C线:" + str(C_value))
+        self.lineWithArrows.set_arrow_positions(T_value, C_value)
 
 
 if __name__ == '__main__':

@@ -124,7 +124,7 @@
      <x>10</x>
      <y>10</y>
      <width>491</width>
-     <height>291</height>
+     <height>341</height>
     </rect>
    </property>
    <property name="frameShape">
@@ -159,13 +159,23 @@
 {border-style: solid; border-width: 1px; border-radius: 10px; border-color: black;}</string>
     </property>
    </widget>
+   <widget class="QWidget" name="line_widget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>5</x>
+      <y>285</y>
+      <width>481</width>
+      <height>41</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QFrame" name="frame_2">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>305</y>
-     <width>780</width>
+     <x>0</x>
+     <y>370</y>
+     <width>681</width>
      <height>61</height>
     </rect>
    </property>
@@ -179,8 +189,8 @@
     <property name="geometry">
      <rect>
       <x>5</x>
-      <y>5</y>
-      <width>800</width>
+      <y>0</y>
+      <width>661</width>
       <height>45</height>
      </rect>
     </property>
@@ -189,9 +199,9 @@
   <widget class="QSlider" name="horizontalSlider_T">
    <property name="geometry">
     <rect>
-     <x>619</x>
+     <x>679</x>
      <y>130</y>
-     <width>151</width>
+     <width>111</width>
      <height>20</height>
     </rect>
    </property>
@@ -205,9 +215,9 @@
   <widget class="QSlider" name="horizontalSlider_C">
    <property name="geometry">
     <rect>
-     <x>619</x>
+     <x>679</x>
      <y>200</y>
-     <width>151</width>
+     <width>111</width>
      <height>20</height>
     </rect>
    </property>
@@ -218,7 +228,7 @@
   <widget class="QLabel" name="T_label">
    <property name="geometry">
     <rect>
-     <x>520</x>
+     <x>550</x>
      <y>130</y>
      <width>71</width>
      <height>16</height>
@@ -237,7 +247,7 @@
   <widget class="QLabel" name="C_label">
    <property name="geometry">
     <rect>
-     <x>520</x>
+     <x>550</x>
      <y>200</y>
      <width>71</width>
      <height>16</height>
@@ -248,6 +258,32 @@
    </property>
    <property name="alignment">
     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>510</x>
+     <y>130</y>
+     <width>31</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>红</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>510</x>
+     <y>200</y>
+     <width>31</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>蓝</string>
    </property>
   </widget>
  </widget>
