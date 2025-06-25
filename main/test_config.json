@@ -1,0 +1,12 @@
+{
+    "table_name": [
+        "temp",
+        "long",
+        "lat",
+        "alt"
+    ],
+    "batch": 1000,
+    "save": true,
+    "sampled": true,
+    "now_table": "long"
+}

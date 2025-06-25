@@ -11,6 +11,7 @@ role    :试纸检测界面
 
 import json
 import sys
+import time
 
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtCore import QThread, pyqtSignal, QPoint, QTimer, QRectF
@@ -24,10 +25,11 @@ from qtpy import uic
 # 导入函数
 from mqtt_send import mqtt_send_data
 from sensor_reader import read_sensor_data, generate_random_packet
-import time
+import user_manager
 
 T_value = 50
 C_value = 50
+now_user = ""
 
 
 # 串口接收输出线程
@@ -167,7 +169,8 @@ class PlotWidget(QWidget):
             "main_valley": main_valley['peak'],
             "T_size": Ts,
             "C_size": Cs,
-            "T/C_ratio": ratio
+            "T/C_ratio": ratio,
+            "operator": now_user
         }
 
         json_messages = json.dumps(messages)
@@ -362,6 +365,11 @@ class MainWindow(QMainWindow):
 
         # 设置气泡字体
         QToolTip.setFont(QFont('Microsoft YaHei', 12))
+
+        current_user = user_manager.load_data().get("current_user")
+        global now_user
+        now_user = current_user['account']
+        print("当前用户：" + now_user)
 
     def update_time(self):
         """更新时间和日期"""

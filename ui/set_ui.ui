@@ -193,7 +193,7 @@ border-radius: 10px;
     </rect>
    </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>3</number>
    </property>
    <widget class="QWidget" name="tab_2">
     <attribute name="title">
@@ -1278,7 +1278,7 @@ border-radius: 5px;
        <height>251</height>
       </rect>
      </property>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>0</x>
@@ -1315,17 +1315,20 @@ border-radius: 5px;
       </rect>
      </property>
      <property name="text">
-      <string>流水号:YYMMDD-</string>
+      <string>批次号</string>
      </property>
     </widget>
-    <widget class="QSpinBox" name="spinBox">
+    <widget class="QSpinBox" name="spin_batch">
      <property name="geometry">
       <rect>
        <x>130</x>
        <y>10</y>
-       <width>51</width>
+       <width>71</width>
        <height>31</height>
       </rect>
+     </property>
+     <property name="maximum">
+      <number>10000</number>
      </property>
     </widget>
     <widget class="QLabel" name="label_29">
@@ -1338,17 +1341,7 @@ border-radius: 5px;
       </rect>
      </property>
      <property name="text">
-      <string>记录保存天数</string>
-     </property>
-    </widget>
-    <widget class="QSpinBox" name="spinBox_2">
-     <property name="geometry">
-      <rect>
-       <x>340</x>
-       <y>10</y>
-       <width>91</width>
-       <height>31</height>
-      </rect>
+      <string>保存到表</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_30">
@@ -1361,41 +1354,26 @@ border-radius: 5px;
       </rect>
      </property>
      <property name="text">
-      <string>流水号后缀长度</string>
+      <string>保存到云</string>
      </property>
     </widget>
-    <widget class="QSpinBox" name="spinBox_3">
-     <property name="geometry">
-      <rect>
-       <x>130</x>
-       <y>60</y>
-       <width>51</width>
-       <height>31</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QComboBox" name="comboBox_3">
+    <widget class="QComboBox" name="combo_sampled">
      <property name="geometry">
       <rect>
        <x>340</x>
        <y>60</y>
-       <width>91</width>
+       <width>121</width>
        <height>31</height>
       </rect>
      </property>
      <item>
       <property name="text">
-       <string>定性+定量</string>
+       <string>单次采样</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>定性</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>定量</string>
+       <string>多次平均</string>
       </property>
      </item>
     </widget>
@@ -1409,7 +1387,7 @@ border-radius: 5px;
       </rect>
      </property>
      <property name="text">
-      <string>结果类型</string>
+      <string>采样方法</string>
      </property>
     </widget>
     <widget class="QFrame" name="frame">
@@ -1537,6 +1515,36 @@ border-radius: 5px;
      <property name="text">
       <string>保存</string>
      </property>
+    </widget>
+    <widget class="QComboBox" name="combo_tabel">
+     <property name="geometry">
+      <rect>
+       <x>340</x>
+       <y>10</y>
+       <width>121</width>
+       <height>31</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="combo_save">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>60</y>
+       <width>71</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>是</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>否</string>
+      </property>
+     </item>
     </widget>
    </widget>
    <widget class="QWidget" name="tab_4">

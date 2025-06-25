@@ -14,6 +14,7 @@ from json_config_set import read_setting, write_setting
 from sensor_reader import read_sensor_data
 import subprocess
 import user_manager
+import test_config
 
 
 class SETWindow(QtWidgets.QMainWindow):
@@ -84,6 +85,29 @@ class SETWindow(QtWidgets.QMainWindow):
         # 初始化加载用户数据
         self.selected_user = None  # 存储选中的完整用户字典
         self.refresh_user_list()
+
+        # 加载测试配置
+        self.spin_batch = self.findChild(QtWidgets.QSpinBox, 'spin_batch')  # 批次数量
+        self.combo_tabel = self.findChild(QtWidgets.QComboBox, 'combo_tabel')  # 表格名称
+        self.combo_save = self.findChild(QtWidgets.QComboBox, 'combo_save')  # 保存位置
+        self.combo_sampled = self.findChild(QtWidgets.QComboBox, 'combo_sampled')  # 采样方式
+
+        self.spin_batch.setValue(test_config.get_batch_size())  # 加载批次数量
+        self.combo_tabel.addItems(test_config.get_table_fields())  # 加载表格名称
+        if test_config.get_save_flag():
+            self.combo_save.setCurrentIndex(0)  # 加载保存位置
+        else:
+            self.combo_save.setCurrentIndex(1)
+        if test_config.get_sampled_flag():
+            self.combo_sampled.setCurrentIndex(0)
+        else:
+            self.combo_sampled.setCurrentIndex(1)
+
+        # 绑定信号
+        self.spin_batch.valueChanged.connect(self.spijn_batch_changed)
+        self.combo_tabel.activated.connect(self.combo_sampled_changed)
+        self.combo_save.activated.connect(self.combo_save_changed)
+        self.combo_sampled.activated.connect(self.combo_tabel_changed)
 
     def update_time(self):
         # 获取当前时间和日期
@@ -218,6 +242,32 @@ class SETWindow(QtWidgets.QMainWindow):
         except Exception as e:
             print("删除失败:", e)
             QtWidgets.QMessageBox.critical(self, "错误", "删除用户时发生错误")
+
+    def spijn_batch_changed(self):
+        """批次数量改变时更新测试配置"""
+        batch_num = self.spin_batch.value()
+        test_config.set_batch_size(batch_num)
+
+    def combo_sampled_changed(self):
+        """表格名称改变时更新测试配置"""
+        table_selected = self.combo_tabel.currentText()
+        test_config.set_now_table(table_selected)
+
+    def combo_save_changed(self):
+        """保存位置改变时更新测试配置"""
+        save_selected = self.combo_save.currentText()
+        if save_selected == "是":
+            test_config.set_save_flag(True)
+        else:
+            test_config.set_save_flag(False)
+
+    def combo_tabel_changed(self):
+        """采样方式改变时更新测试配置"""
+        sampled_selected = self.combo_sampled.currentText()
+        if sampled_selected == "单次采样":
+            test_config.set_sampled_flag(True)
+        else:
+            test_config.set_sampled_flag(False)
 
 
 if __name__ == '__main__':

@@ -1,7 +1,7 @@
 {
     "current_user": {
-        "account": "z",
-        "username": "主任",
+        "account": "admin",
+        "username": "管理员",
         "is_admin": true
     },
     "users": [
