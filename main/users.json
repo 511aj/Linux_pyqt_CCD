@@ -1,0 +1,29 @@
+{
+    "current_user": {
+        "account": "z",
+        "username": "主任",
+        "is_admin": true
+    },
+    "users": [
+        {
+            "account": "admin",
+            "username": "管理员",
+            "is_admin": true
+        },
+        {
+            "account": "h",
+            "username": "护士",
+            "is_admin": false
+        },
+        {
+            "account": "d",
+            "username": "医生",
+            "is_admin": false
+        },
+        {
+            "account": "z",
+            "username": "主任",
+            "is_admin": true
+        }
+    ]
+}

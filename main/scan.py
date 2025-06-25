@@ -16,16 +16,15 @@ from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtCore import QThread, pyqtSignal, QPoint, QTimer, QRectF
 from PyQt5.QtGui import QPainter, QColor, QFont
 from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QToolTip
+from PyQt5.QtCore import Qt, QPointF
+from PyQt5.QtGui import QPainter, QPen, QPolygonF
+from PyQt5.QtWidgets import QWidget
 from qtpy import uic
 
 # 导入函数
 from mqtt_send import mqtt_send_data
 from sensor_reader import read_sensor_data, generate_random_packet
 import time
-
-from PyQt5.QtCore import Qt, QPointF
-from PyQt5.QtGui import QPainter, QPen, QPolygonF
-from PyQt5.QtWidgets import QWidget
 
 T_value = 50
 C_value = 50
@@ -45,6 +44,7 @@ class SeriaReadThread(QThread):
     # 串口操作
     @staticmethod
     def serial_port():
+        # todo 暂时模拟串口读取
         print("打开串口")
         # data_string = read_sensor_data()
         # if data_string is not None:
@@ -162,8 +162,6 @@ class PlotWidget(QWidget):
         # 调用 mqtt 发送函数
         topic = "resr"
 
-        message = {"username": "wj", "temperature": 25, "soil_humidity": 60, "light": 325}
-
         messages = {
             "username": "wj",
             "main_valley": main_valley['peak'],
@@ -172,9 +170,7 @@ class PlotWidget(QWidget):
             "T/C_ratio": ratio
         }
 
-        json_message = json.dumps(message)
         json_messages = json.dumps(messages)
-        print(json_message)
         print(json_messages)
         mqtt_send_data(topic, json_messages)
         return pixels
@@ -239,7 +235,19 @@ class PlotWidget(QWidget):
             previous_y = int(y)
 
 
+# 画CT指示器
 class LineWithArrows(QWidget):
+    """
+    复用方法：
+    # 获取或创建布局
+    layout = self.line_widget.layout() or QVBoxLayout(self.line_widget)
+    self.line_widget.setFixedHeight(50)
+    self.lineWithArrows.set_arrow_positions(3, 400)
+    # 添加新的绘图部件
+    layout.addWidget(self.lineWithArrows)
+    self.lineWithArrows.set_arrow_positions(60, 50)
+    """
+
     def __init__(self, parent=None):
         super().__init__(parent)
         self.line_y = 30  # 固定线的位置（y 坐标）
@@ -294,45 +302,16 @@ class LineWithArrows(QWidget):
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
+        self.line_widget = None
         self.thread = None
         self.window = None
         self.plot_widget = None
+
         uic.loadUi('../ui/scan_ui.ui', self)  # 加载 UI 文件
-        # 设置字体
-        QToolTip.setFont(QFont('Microsoft YaHei', 12))
-
-        # 动态创建进度条并加入 widget 布局
-        self.progressBar = QtWidgets.QProgressBar()
-        self.progressBar.setRange(0, 0)  # 不确定模式
-        self.progressBar.hide()
-
-        # 获取 widget 的布局，如果没有就新建一个
-        layout = self.Porgress_bar.layout()
-        if layout is None:
-            layout = QVBoxLayout(self.Porgress_bar)
-        layout.addWidget(self.progressBar)
-        # 连接按钮事件
-        self.scanBtn.clicked.connect(self.update_plot)
-
-        self.backBtn.clicked.connect(self.back_to_main)
-
-        # 添加标签引用(寻找标签)
-        self.timeLabel = self.findChild(QtWidgets.QLabel, 'timeLabel')  # 寻找时间标签
-        self.dateLabel = self.findChild(QtWidgets.QLabel, 'dateLabel')  # 寻找日期标签
-
-        self.T_label = self.findChild(QtWidgets.QLabel, 'T_label')  # 寻找T波谷面积标签
-        self.C_label = self.findChild(QtWidgets.QLabel, 'C_label')
-
-        self.horizontalSlider_T = self.findChild(QtWidgets.QSlider, 'horizontalSlider_T')
-        self.horizontalSlider_C = self.findChild(QtWidgets.QSlider, 'horizontalSlider_C')
-
-        self.horizontalSlider_T.setValue(50)
-        self.horizontalSlider_C.setValue(50)
-
-        self.horizontalSlider_T.valueChanged.connect(self.vslider_T_changeda)
-        self.horizontalSlider_C.valueChanged.connect(self.vslider_C_changeda)
 
         # 日期和时间显示
+        self.timeLabel = self.findChild(QtWidgets.QLabel, 'timeLabel')  # 寻找时间标签
+        self.dateLabel = self.findChild(QtWidgets.QLabel, 'dateLabel')  # 寻找日期标签
         if self.timeLabel is None:
             print("Error: timeLabel not found in UI")
         if self.dateLabel is None:
@@ -343,17 +322,49 @@ class MainWindow(QMainWindow):
         self.timer.start(1000)  # 每1秒触发一次
         # 初始化时间和日期显示
         self.update_time()
-        self.lineWithArrows = LineWithArrows()
 
-        # 获取或创建布局
-        layoutd = self.line_widget.layout() or QVBoxLayout(self.line_widget)
+        # 动态创建进度条并加入 widget 布局
+        self.progressBar = QtWidgets.QProgressBar()
+        self.progressBar.setRange(0, 0)  # 不确定模式
+        self.progressBar.hide()
+        self.Porgress_bar = self.findChild(QtWidgets.QWidget, 'Porgress_bar')
+        # 获取 widget 的布局，如果没有就新建一个
+        layout = self.Porgress_bar.layout()
+        if layout is None:
+            layout = QVBoxLayout(self.Porgress_bar)
+        layout.addWidget(self.progressBar)
+
+        # 连接按钮事件
+        self.scanBtn.clicked.connect(self.update_plot)
+        self.backBtn.clicked.connect(self.back_to_main)
+
+        # T/C值标签
+        self.T_label = self.findChild(QtWidgets.QLabel, 'T_label')
+        self.C_label = self.findChild(QtWidgets.QLabel, 'C_label')
+
+        # 滑动条
+        self.horizontalSlider_T = self.findChild(QtWidgets.QSlider, 'horizontalSlider_T')
+        self.horizontalSlider_C = self.findChild(QtWidgets.QSlider, 'horizontalSlider_C')
+
+        self.horizontalSlider_T.setValue(50)
+        self.horizontalSlider_C.setValue(50)
+
+        self.horizontalSlider_T.valueChanged.connect(self.vslider_T_changeda)
+        self.horizontalSlider_C.valueChanged.connect(self.vslider_C_changeda)
+
+        # C/T箭头指示器
+        self.lineWithArrows = LineWithArrows()
+        layout_line = self.line_widget.layout() or QVBoxLayout(self.line_widget)
         self.line_widget.setFixedHeight(50)
         self.lineWithArrows.set_arrow_positions(3, 400)
-        # 添加新的绘图部件
-        layoutd.addWidget(self.lineWithArrows)
+        # 添加进布局
+        layout_line.addWidget(self.lineWithArrows)
+
+        # 设置气泡字体
+        QToolTip.setFont(QFont('Microsoft YaHei', 12))
 
     def update_time(self):
-        # 获取当前时间和日期
+        """更新时间和日期"""
         current_time = QtCore.QTime.currentTime().toString("hh:mm:ss")
         current_date = QtCore.QDate.currentDate().toString("yyyy-MM-dd")
 
@@ -363,7 +374,7 @@ class MainWindow(QMainWindow):
             self.dateLabel.setText(current_date)
 
     def back_to_main(self):
-        print("回到主界面")
+        """回到主界面"""
         from main import MainMenu as main_menu_ui
         # 回到主界面
         self.window = main_menu_ui()
@@ -374,22 +385,22 @@ class MainWindow(QMainWindow):
 
     def update_plot(self):
         """更新 PlotWidget 的数据并重新绘制"""
-        # todo: 在这里开启线程，读取数据，并将数据传入 PlotWidget 进行绘制
-        """启动线程读取串口数据"""
         if self.thread and self.thread.isRunning():
             print("线程已在运行，跳过重复启动")
+
             pos = self.Porgress_bar.mapToGlobal(self.Porgress_bar.rect().topLeft())
             # 位置偏移
             final_pos = pos + QPoint(0, 0)
-            # 在按钮上方显示气泡提示
             QToolTip.showText(final_pos, "请等待测量完成", self.Porgress_bar)
 
             # 使用 QTimer 在2秒后隐藏提示
             QTimer.singleShot(2000, QToolTip.hideText)
             return
+
         # 显示进度条
         self.progressBar.show()
 
+        # 启动线程读取串口数据
         self.thread = SeriaReadThread()
         self.thread.data_received.connect(self.handle_received_data)
         self.thread.start()
@@ -416,12 +427,15 @@ class MainWindow(QMainWindow):
         layout.addWidget(self.plot_widget)
 
     def vslider_T_changeda(self):
+        """T线滑动条变化事件"""
+        global T_value
         T_value = self.horizontalSlider_T.value()
         self.T_label.setText("T线:" + str(T_value))
         self.lineWithArrows.set_arrow_positions(T_value, C_value)
 
     def vslider_C_changeda(self):
-        print("C波谷面积变化")
+        """C线滑动条变化事件"""
+        global C_value
         C_value = self.horizontalSlider_C.value()
         self.C_label.setText("C线:" + str(C_value))
         self.lineWithArrows.set_arrow_positions(T_value, C_value)

@@ -1,16 +1,13 @@
 {
-    "date": "2024,12,31",
-    "time": "0,0",
-
+    "date": "2025,6,13",
+    "time": "s",
     "server_ip": "8.137.62.230",
     "server_port": 1883,
-
     "Motor_port": "/dev/ttyUSB0",
     "CCD_port": "/dev/ttyUSB1",
     "Motor_baudrate": 115200,
     "CCD_baudrate": 256000,
-
-    "Local_ip" : "192.168.1.100",
-    "Local_Gateway" : "192.168.1.1",
-    "Local_Netmask" : "255.255.255.0"
+    "Local_ip": "192.168.1.100",
+    "Local_Gateway": "192.168.1.1",
+    "Local_Netmask": "255.255.255.0"
 }

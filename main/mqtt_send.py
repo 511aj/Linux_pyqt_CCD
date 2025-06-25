@@ -4,7 +4,7 @@
     # 导入mqtt库 pip install paho.mqtt
     调用示例：
         from mqtt_send import run
-        topic = "resr"
+        topic = "主题"
         message = {"username": "testuser", "temperature": 25, "soil_humidity": 60, "light": 500}
         run(topic, message)
 """
