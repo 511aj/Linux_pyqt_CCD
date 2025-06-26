@@ -22,7 +22,7 @@
      <x>1</x>
      <y>-10</y>
      <width>798</width>
-     <height>101</height>
+     <height>71</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -45,7 +45,7 @@ border-radius: 10px;
       <x>130</x>
       <y>20</y>
       <width>471</width>
-      <height>71</height>
+      <height>31</height>
      </rect>
     </property>
     <property name="font">
@@ -187,9 +187,9 @@ border-radius: 10px;
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>90</y>
+     <y>65</y>
      <width>796</width>
-     <height>341</height>
+     <height>365</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -206,10 +206,10 @@ border-radius: 10px;
    <property name="frameShadow">
     <enum>QFrame::Raised</enum>
    </property>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="refresh_btn">
     <property name="geometry">
      <rect>
-      <x>580</x>
+      <x>390</x>
       <y>10</y>
       <width>100</width>
       <height>32</height>
@@ -222,52 +222,24 @@ border-radius: 5px;
         </string>
     </property>
     <property name="text">
-     <string>改编号</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_2">
-    <property name="geometry">
-     <rect>
-      <x>690</x>
-      <y>10</y>
-      <width>100</width>
-      <height>32</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color:rgb(27, 134, 204);
-color:rgb(255,255,255);
-border-radius: 5px; 
-        </string>
-    </property>
-    <property name="text">
-     <string>计时</string>
-    </property>
-   </widget>
-   <widget class="QFrame" name="frame_7">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>146</y>
-      <width>800</width>
-      <height>3</height>
-     </rect>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::VLine</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
+     <string>刷新表名</string>
     </property>
    </widget>
    <widget class="QFrame" name="frame_9">
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>146</y>
+      <y>50</y>
       <width>804</width>
-      <height>3</height>
+      <height>2</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+
+border: 1px solid black;
+border-radius: 10px;
+</string>
     </property>
     <property name="frameShape">
      <enum>QFrame::HLine</enum>
@@ -276,91 +248,36 @@ border-radius: 5px;
      <enum>QFrame::Raised</enum>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_4">
+   <widget class="QComboBox" name="table_combo">
     <property name="geometry">
      <rect>
-      <x>110</x>
-      <y>290</y>
-      <width>100</width>
+      <x>100</x>
+      <y>10</y>
+      <width>121</width>
       <height>31</height>
      </rect>
     </property>
-    <property name="styleSheet">
-     <string notr="true">background-color:rgb(27, 134, 204);
-color:rgb(255,255,255);
-border-radius: 5px; 
-        </string>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>20</y>
+      <width>54</width>
+      <height>12</height>
+     </rect>
     </property>
     <property name="text">
-     <string>首页</string>
+     <string>选择表</string>
     </property>
    </widget>
-   <widget class="QFrame" name="frame_8">
+   <widget class="QTableWidget" name="table">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>10</y>
-      <width>141</width>
-      <height>91</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QWidget#frame_8{
-
-border: 1px solid black;
-border-radius: 10px;
-}
-</string>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
-    </property>
-    <widget class="QLabel" name="label_4">
-     <property name="geometry">
-      <rect>
-       <x>1</x>
-       <y>1</y>
-       <width>71</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>当前用户:</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_5">
-     <property name="geometry">
-      <rect>
-       <x>6</x>
-       <y>36</y>
-       <width>91</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true"/>
-     </property>
-     <property name="text">
-      <string>admin</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QTableWidget" name="tableWidget">
-    <property name="geometry">
-     <rect>
-      <x>110</x>
-      <y>150</y>
-      <width>461</width>
-      <height>131</height>
+      <y>60</y>
+      <width>781</width>
+      <height>300</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -375,115 +292,88 @@ border-radius: 10px;
      <bool>false</bool>
     </attribute>
     <attribute name="horizontalHeaderMinimumSectionSize">
-     <number>18</number>
+     <number>2</number>
     </attribute>
     <attribute name="horizontalHeaderDefaultSectionSize">
-     <number>107</number>
+     <number>86</number>
+    </attribute>
+    <attribute name="horizontalHeaderHighlightSections">
+     <bool>false</bool>
     </attribute>
     <attribute name="verticalHeaderVisible">
      <bool>true</bool>
+    </attribute>
+    <attribute name="verticalHeaderDefaultSectionSize">
+     <number>41</number>
     </attribute>
     <attribute name="verticalHeaderHighlightSections">
      <bool>true</bool>
     </attribute>
     <column>
      <property name="text">
-      <string>样本号</string>
-     </property>
-     <property name="textAlignment">
-      <set>AlignCenter</set>
-     </property>
-     <property name="background">
-      <color alpha="0">
-       <red>141</red>
-       <green>200</green>
-       <blue>109</blue>
-      </color>
+      <string>主波谷</string>
      </property>
     </column>
     <column>
      <property name="text">
-      <string>项目</string>
-     </property>
-     <property name="textAlignment">
-      <set>AlignCenter</set>
+      <string>T面积</string>
      </property>
     </column>
     <column>
      <property name="text">
-      <string>倒计时</string>
-     </property>
-     <property name="textAlignment">
-      <set>AlignCenter</set>
+      <string>c面积</string>
      </property>
     </column>
     <column>
      <property name="text">
-      <string>当前状态</string>
+      <string>比值</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>操作员</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>批次</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>单/多</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>时间</string>
      </property>
     </column>
    </widget>
-   <widget class="QWidget" name="verticalLayoutWidget">
+   <widget class="QPushButton" name="query_btn">
     <property name="geometry">
      <rect>
-      <x>200</x>
+      <x>520</x>
       <y>10</y>
-      <width>160</width>
-      <height>80</height>
+      <width>100</width>
+      <height>32</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="verticalLayout_2">
-     <item>
-      <widget class="QLabel" name="label_3">
-       <property name="font">
-        <font>
-         <family>宋体</family>
-         <pointsize>14</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>样本类型：</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="comboBox"/>
-     </item>
-    </layout>
+    <property name="styleSheet">
+     <string notr="true">background-color:rgb(27, 134, 204);
+color:rgb(255,255,255);
+border-radius: 5px; 
+        </string>
+    </property>
+    <property name="text">
+     <string>查询</string>
+    </property>
    </widget>
-   <widget class="QWidget" name="verticalLayoutWidget_2">
+   <widget class="QPushButton" name="delete_btn">
     <property name="geometry">
      <rect>
-      <x>390</x>
+      <x>660</x>
       <y>10</y>
-      <width>160</width>
-      <height>80</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="verticalLayout_3">
-     <item>
-      <widget class="QLabel" name="label_6">
-       <property name="font">
-        <font>
-         <family>宋体</family>
-         <pointsize>14</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>项目：</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="comboBox_2"/>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QPushButton" name="pushButton_6">
-    <property name="geometry">
-     <rect>
-      <x>230</x>
-      <y>290</y>
       <width>100</width>
       <height>32</height>
      </rect>
@@ -495,213 +385,7 @@ border-radius: 5px;
         </string>
     </property>
     <property name="text">
-     <string>上一页</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_7">
-    <property name="geometry">
-     <rect>
-      <x>350</x>
-      <y>290</y>
-      <width>100</width>
-      <height>32</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color:rgb(27, 134, 204);
-color:rgb(255,255,255);
-border-radius: 5px; 
-        </string>
-    </property>
-    <property name="text">
-     <string>下一页</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_8">
-    <property name="geometry">
-     <rect>
-      <x>460</x>
-      <y>290</y>
-      <width>100</width>
-      <height>32</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color:rgb(27, 134, 204);
-color:rgb(255,255,255);
-border-radius: 5px; 
-        </string>
-    </property>
-    <property name="text">
-     <string>尾页</string>
-    </property>
-   </widget>
-   <widget class="QTableWidget" name="tableWidget_2">
-    <property name="geometry">
-     <rect>
-      <x>580</x>
-      <y>150</y>
-      <width>201</width>
-      <height>131</height>
-     </rect>
-    </property>
-    <row>
-     <property name="text">
-      <string>子项目名</string>
-     </property>
-    </row>
-    <row>
-     <property name="text">
-      <string>结果</string>
-     </property>
-    </row>
-    <row>
-     <property name="text">
-      <string>单位</string>
-     </property>
-    </row>
-   </widget>
-   <widget class="QFrame" name="frame_5">
-    <property name="geometry">
-     <rect>
-      <x>580</x>
-      <y>300</y>
-      <width>181</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
-    </property>
-    <widget class="QLabel" name="label_18">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>54</width>
-       <height>12</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>时间：</string>
-     </property>
-    </widget>
-    <widget class="QComboBox" name="comboBox_3">
-     <property name="geometry">
-      <rect>
-       <x>36</x>
-       <y>0</y>
-       <width>141</width>
-       <height>22</height>
-      </rect>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QWidget" name="horizontalLayoutWidget_2">
-    <property name="geometry">
-     <rect>
-      <x>590</x>
-      <y>100</y>
-      <width>161</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <item>
-      <widget class="QLabel" name="label_8">
-       <property name="text">
-        <string>项目：</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="lineEdit_2"/>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QWidget" name="horizontalLayoutWidget_3">
-    <property name="geometry">
-     <rect>
-      <x>590</x>
-      <y>120</y>
-      <width>161</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_3">
-     <item>
-      <widget class="QLabel" name="label_9">
-       <property name="text">
-        <string>样本类型：</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="lineEdit_3"/>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QWidget" name="horizontalLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>590</x>
-      <y>80</y>
-      <width>181</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QLabel" name="label_7">
-       <property name="text">
-        <string>样本号：</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="lineEdit"/>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QPushButton" name="pushButton_5">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>230</y>
-      <width>101</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color:rgb(27, 134, 204);
-color:rgb(255,255,255);
-border-radius: 5px; 
-        </string>
-    </property>
-    <property name="text">
-     <string>删除</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_3">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>160</y>
-      <width>99</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color:rgb(27, 134, 204);
-color:rgb(255,255,255);
-border-radius: 5px; 
-        </string>
-    </property>
-    <property name="text">
-     <string>样本+1</string>
+     <string>删除选中</string>
     </property>
    </widget>
   </widget>

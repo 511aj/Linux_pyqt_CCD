@@ -28,6 +28,8 @@ from sensor_reader import read_sensor_data, generate_random_packet
 import user_manager
 import test_config
 
+import sqlite
+
 T_value = 50
 C_value = 50
 
@@ -184,6 +186,7 @@ class PlotWidget(QWidget):
             json_messages = json.dumps(messages)
             print(json_messages)
             mqtt_send_data(topic, json_messages)
+            sqlite.save_to_sqlite(messages)
 
         return pixels
 
