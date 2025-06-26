@@ -12,8 +12,6 @@ from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtWidgets import QApplication
 from qtpy import uic
 
-from ui.检测历史 import Ui_Form as HistoryUI
-
 import user_manager
 import test_config
 
@@ -50,15 +48,21 @@ class HistoryWindow(QtWidgets.QWidget):
         else:
             print("backBtn is None")
 
-        self.table_combo = self.findChild(QtWidgets.QComboBox, 'table_combo')
-        self.refresh_btn = self.findChild(QtWidgets.QPushButton, 'refresh_btn')
-        self.query_btn = self.findChild(QtWidgets.QPushButton, 'query_btn')
-        self.table = self.findChild(QtWidgets.QTableWidget, 'table')
-        self.delete_btn = self.findChild(QtWidgets.QPushButton, 'delete_btn')
+        self.table_combo = self.findChild(QtWidgets.QComboBox, 'table_combo')  # 表名下拉框
+        self.refresh_btn = self.findChild(QtWidgets.QPushButton, 'refresh_btn')  # 查询表名
+        self.query_btn = self.findChild(QtWidgets.QPushButton, 'query_btn')  # 查询数据
+        self.table = self.findChild(QtWidgets.QTableWidget, 'table')  # 表格
+        self.delete_btn = self.findChild(QtWidgets.QPushButton, 'delete_btn')  # 删除按钮
 
         self.refresh_btn.clicked.connect(self.load_table_names)
         self.query_btn.clicked.connect(self.load_data)
         self.delete_btn.clicked.connect(self.delete_selected_row)
+
+        self.table.setColumnWidth(0, 0)  # 隐藏 ID 列
+        self.table.setColumnWidth(7, 60)
+        self.table.verticalHeader().setVisible(False)    # 隐藏表头
+
+        self.load_table_names()
 
     def update_time(self):
         current_time = QtCore.QTime.currentTime().toString("hh:mm:ss")
@@ -79,7 +83,7 @@ class HistoryWindow(QtWidgets.QWidget):
 
     def get_connection(self):
         try:
-            return sqlite3.connect("local_data.db")
+            return sqlite3.connect("../data/local_data.db")
         except Exception as e:
             QMessageBox.critical(self, "数据库错误", f"连接失败: {e}")
             return None
@@ -120,7 +124,7 @@ class HistoryWindow(QtWidgets.QWidget):
                 row = self.table.rowCount()
                 self.table.insertRow(row)
 
-                display_indices = [1, 2, 3, 4, 5, 6, 7, 8]  # 假设从第 2 列开始是你要显示的字段
+                display_indices = [0, 1, 2, 3, 4, 5, 6, 7, 8]  # 显示的列索引
                 for col, idx, in enumerate(display_indices):
                     value = row_data[idx]
                     item = QTableWidgetItem(str(value))

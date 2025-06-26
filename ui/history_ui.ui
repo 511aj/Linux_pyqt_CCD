@@ -67,7 +67,7 @@ border-radius: 10px;
       <x>724</x>
       <y>2</y>
       <width>70</width>
-      <height>75</height>
+      <height>61</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -76,41 +76,6 @@ border-radius: 10px;
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QLabel" name="label_11">
-     <property name="geometry">
-      <rect>
-       <x>2</x>
-       <y>0</y>
-       <width>55</width>
-       <height>55</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="pixmap">
-      <pixmap>batch.png</pixmap>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_2">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>56</y>
-       <width>62</width>
-       <height>15</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>测试</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
    </widget>
   </widget>
   <widget class="QFrame" name="under">
@@ -309,6 +274,11 @@ border-radius: 10px;
     <attribute name="verticalHeaderHighlightSections">
      <bool>true</bool>
     </attribute>
+    <column>
+     <property name="text">
+      <string>id</string>
+     </property>
+    </column>
     <column>
      <property name="text">
       <string>主波谷</string>

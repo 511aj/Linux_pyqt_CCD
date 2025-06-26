@@ -17,7 +17,7 @@ data = load_data()
 import json
 import os
 
-DATA_FILE = 'users.json'
+DATA_FILE = '../data/users.json'
 
 
 #  加载和保存 JSON 数据

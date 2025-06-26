@@ -10,7 +10,7 @@ import sqlite3
 import os
 
 # 本地数据库路径
-DB_PATH = "local_data.db"
+DB_PATH = "../data/local_data.db"
 
 def save_to_sqlite(data):
     """

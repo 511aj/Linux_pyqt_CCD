@@ -16,7 +16,7 @@ import json
 import os
 
 # 设置文件路径
-SETTINGS_FILE = "settings.json"
+SETTINGS_FILE = "../data/settings.json"
 
 
 def load_settings():

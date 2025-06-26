@@ -16,7 +16,7 @@ role    : 测试配置管理模块
 import json
 import os
 
-CONFIG_FILE = "test_config.json"
+CONFIG_FILE = "../data/test_config.json"
 
 
 def load_config():
