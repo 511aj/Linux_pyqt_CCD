@@ -193,7 +193,7 @@ border-radius: 10px;
     </rect>
    </property>
    <property name="currentIndex">
-    <number>3</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="tab_2">
     <attribute name="title">
@@ -335,7 +335,7 @@ border-radius: 10px;
        <x>1</x>
        <y>234</y>
        <width>180</width>
-       <height>85</height>
+       <height>80</height>
       </rect>
      </property>
      <property name="styleSheet">
@@ -397,7 +397,7 @@ background-color:rgb(20, 144, 219)
        <x>186</x>
        <y>234</y>
        <width>180</width>
-       <height>85</height>
+       <height>80</height>
       </rect>
      </property>
      <property name="styleSheet">
@@ -460,7 +460,7 @@ background-color:rgb(20, 144, 219)
        <x>371</x>
        <y>234</y>
        <width>180</width>
-       <height>85</height>
+       <height>80</height>
       </rect>
      </property>
      <property name="styleSheet">
@@ -523,7 +523,7 @@ background-color:rgb(20, 144, 219)
        <x>556</x>
        <y>234</y>
        <width>229</width>
-       <height>85</height>
+       <height>80</height>
       </rect>
      </property>
      <property name="styleSheet">
@@ -864,7 +864,7 @@ border-radius: 3px;</string>
        <x>1</x>
        <y>160</y>
        <width>431</width>
-       <height>157</height>
+       <height>150</height>
       </rect>
      </property>
      <property name="styleSheet">

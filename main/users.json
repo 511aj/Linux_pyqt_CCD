@@ -1,8 +1,8 @@
 {
     "current_user": {
-        "account": "admin",
-        "username": "管理员",
-        "is_admin": true
+        "account": "d",
+        "username": "医生",
+        "is_admin": false
     },
     "users": [
         {

@@ -26,10 +26,10 @@ from qtpy import uic
 from mqtt_send import mqtt_send_data
 from sensor_reader import read_sensor_data, generate_random_packet
 import user_manager
+import test_config
 
 T_value = 50
 C_value = 50
-now_user = ""
 
 
 # 串口接收输出线程
@@ -161,21 +161,30 @@ class PlotWidget(QWidget):
         else:
             print("未能找到足够的波谷来计算面积和比值")
 
-        # 调用 mqtt 发送函数
-        topic = "resr"
+        batch = test_config.get_batch_size()
+        table_name = test_config.get_now_table()
+        is_save = test_config.get_save_flag()
+        single_test = test_config.get_sampled_flag()
+        now_user = user_manager.load_data().get("current_user")['account']
 
-        messages = {
-            "username": "wj",
-            "main_valley": main_valley['peak'],
-            "T_size": Ts,
-            "C_size": Cs,
-            "T/C_ratio": ratio,
-            "operator": now_user
-        }
+        if is_save:
+            # 调用 mqtt 发送函数
+            topic = "resr"
+            messages = {
+                "table_name": table_name,
+                "main_valley": main_valley['peak'],
+                "T_size": Ts,
+                "C_size": Cs,
+                "T/C_ratio": ratio,
+                "operator": now_user,
+                "batch": batch,
+                "single": single_test
+            }
 
-        json_messages = json.dumps(messages)
-        print(json_messages)
-        mqtt_send_data(topic, json_messages)
+            json_messages = json.dumps(messages)
+            print(json_messages)
+            mqtt_send_data(topic, json_messages)
+
         return pixels
 
     # 画笔
@@ -366,10 +375,7 @@ class MainWindow(QMainWindow):
         # 设置气泡字体
         QToolTip.setFont(QFont('Microsoft YaHei', 12))
 
-        current_user = user_manager.load_data().get("current_user")
-        global now_user
-        now_user = current_user['account']
-        print("当前用户：" + now_user)
+        print("当前用户：" + user_manager.load_data().get("current_user")['account'])
 
     def update_time(self):
         """更新时间和日期"""
@@ -433,6 +439,15 @@ class MainWindow(QMainWindow):
 
         # 添加新的绘图部件
         layout.addWidget(self.plot_widget)
+
+        if test_config.get_save_flag():
+            pos = self.Porgress_bar.mapToGlobal(self.Porgress_bar.rect().topLeft())
+            # 位置偏移
+            final_pos = pos + QPoint(10, -375)
+            QToolTip.showText(final_pos, "数据已发送云端", self.Porgress_bar)
+
+            # 使用 QTimer 在2秒后隐藏提示
+            QTimer.singleShot(2000, QToolTip.hideText)
 
     def vslider_T_changeda(self):
         """T线滑动条变化事件"""

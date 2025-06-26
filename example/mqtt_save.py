@@ -26,19 +26,24 @@ def get_db_connection():
     return pymysql.connect(**DB_CONFIG)
 
 
-def storage_data(username, main_valley, T_size, C_size, T_C_ratio):
-    # 每次存储都新建连接
+def storage_data(table_name, main_valley, T_size, C_size, T_C_ratio, operator, batch, single):
+    """
+    存储数据到以 table_name 命名的数据库表中
+    """
     db = get_db_connection()
     try:
         with db.cursor() as cursor:
             # 创建表（如果不存在）
             create_sql = f"""
-                CREATE TABLE IF NOT EXISTS `{username}_CCD` (
+                CREATE TABLE IF NOT EXISTS `{table_name}_CCD` (
                     id INT AUTO_INCREMENT PRIMARY KEY,
                     main_valley FLOAT,
                     T_size FLOAT,
                     C_size FLOAT,
                     T_C_ratio FLOAT,
+                    operator VARCHAR(50),
+                    batch VARCHAR(50),
+                    single BOOLEAN,
                     upload_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 );
             """
@@ -46,11 +51,11 @@ def storage_data(username, main_valley, T_size, C_size, T_C_ratio):
 
             # 插入数据（使用参数化查询）
             insert_sql = f"""
-                INSERT INTO `{username}_CCD` 
-                (main_valley, T_size, C_size, T_C_ratio)
-                VALUES (%s, %s, %s, %s);
+                INSERT INTO `{table_name}_CCD` 
+                (main_valley, T_size, C_size, T_C_ratio, operator, batch, single)
+                VALUES (%s, %s, %s, %s, %s, %s, %s);
             """
-            cursor.execute(insert_sql, (main_valley, T_size, C_size, T_C_ratio))
+            cursor.execute(insert_sql, (main_valley, T_size, C_size, T_C_ratio, operator, batch, single))
 
         db.commit()
     except Exception as e:
@@ -77,21 +82,21 @@ def receive_messages():
     except json.JSONDecodeError:
         return jsonify({"result": "error", "message": "Invalid JSON format in payload"}), 400
 
-    required_fields = {'main_valley', 'T_size', 'C_size', 'T/C_ratio'}
+    required_fields = {'table_name', 'main_valley', 'T_size', 'C_size', 'T/C_ratio', 'operator', 'batch', 'single'}
     if not all(field in payload for field in required_fields):
         return jsonify({"result": "error", "message": "Missing required fields in payload"}), 400
 
-    username = payload.get('username')
-    if not username:
-        return jsonify({"result": "error", "message": "Username is missing"}), 400
-
+    table_name = payload.get('table_name')  # 使用 table_name 替代 username
     main_valley = payload.get('main_valley')
     T_size = payload.get('T_size')
     C_size = payload.get('C_size')
     T_C_ratio = payload.get('T/C_ratio')
+    operator = payload.get('operator')
+    batch = payload.get('batch')
+    single = payload.get('single')
 
     try:
-        storage_data(username, main_valley, T_size, C_size, T_C_ratio)
+        storage_data(table_name, main_valley, T_size, C_size, T_C_ratio, operator, batch, single)
         return jsonify({"result": "ok", "message": "Data successfully stored"}), 200
     except Exception as e:
         print(f"Error storing data: {e}")

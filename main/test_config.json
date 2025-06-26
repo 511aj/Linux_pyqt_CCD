@@ -7,6 +7,6 @@
     ],
     "batch": 1000,
     "save": true,
-    "sampled": true,
-    "now_table": "long"
+    "sampled": false,
+    "now_table": "temp"
 }
