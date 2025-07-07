@@ -63,8 +63,8 @@ class SeriaReadThread(QThread):
         #     formatted_sequence += f'0x{byte},'  # 在每个字节后加上逗号和空格
         # formatted_sequence = formatted_sequence.rstrip(', ')  # 删除最后多余的逗号和空格
         # received_data = ([formatted_sequence])
-        time.sleep(2)
-        packet, generated_pixels = generate_random_packet()
+        # time.sleep(2)
+        packet ,sagf = read_sensor_data()
         print("生成的数据:", packet)
 
         received_data = list(packet)
@@ -371,7 +371,7 @@ class MainWindow(QMainWindow):
         self.lineWithArrows = LineWithArrows()
         layout_line = self.line_widget.layout() or QVBoxLayout(self.line_widget)
         self.line_widget.setFixedHeight(50)
-        self.lineWithArrows.set_arrow_positions(3, 400)
+        self.lineWithArrows.set_arrow_positions(0, 0)
         # 添加进布局
         layout_line.addWidget(self.lineWithArrows)
 

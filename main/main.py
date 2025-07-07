@@ -1,3 +1,11 @@
+"""
+Project ：Linux_pyqt_CCD
+File    ：history.py
+IDE     ：PyCharm
+Author  ：wj
+Date    ：2025/6/13 下午2:18
+role    :
+"""
 import sys
 from PyQt5 import QtWidgets, QtCore
 from qtpy import uic

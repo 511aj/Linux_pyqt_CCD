@@ -7,6 +7,6 @@
     ],
     "batch": 998,
     "save": true,
-    "sampled": true,
+    "sampled": false,
     "now_table": "lat"
 }
